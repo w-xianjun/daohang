@@ -304,7 +304,21 @@
             transform: translateY(0);
         }
 
-        /* 大团圆特殊样式 */
+        /* 时光物件特殊样式 - 新增 */
+        .object-item::before {
+            content: "时光物件";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #28a745; /* 使用不同的颜色区分 */
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+
+         /* 大团圆特殊样式 */
         .reunion-item::before {
             content: "大团圆";
             position: absolute;
@@ -318,7 +332,7 @@
             z-index: 10;
         }
 
-        /* 修改后的平台说明版块样式 */
+       /* 修改后的平台说明版块样式 */
         .platform-info {
             max-width: 800px;
             margin: 0 auto;
@@ -742,15 +756,15 @@
         <!-- 时光物件 -->
         <div id="objects" class="photo-tab-content">
             <div class="photo-grid">
-                <div class="photo-item">
+                <div class="photo-item object-item">
                     <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/wu1.jpg" alt="物件一">
                     <div class="photo-caption">物件一</div>
                 </div>
-                <div class="photo-item">
+                <div class="photo-item object-item">
                     <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/wu2.jpg" alt="物件二">
                     <div class="photo-caption">物件二</div>
                 </div>
-                <div class="photo-item">
+                <div class="photo-item object-item">
                     <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/wu3.jpg" alt="水文图">
                     <div class="photo-caption">水文图</div>
                 </div>
