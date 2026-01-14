@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新安琅琊王氏道桥恒公支谱载查询平台（各房导航）</title>
+    <style>
+        :root {
+            --primary-color: #9B2226;
+            --secondary-color: #B99470;
+            --bg-color: #F8F4E9;
+            --text-color: #2C2C2C;
+            --card-bg: #FFFFFF;
+            --border-color: #D9CFC1;
+            --base-font-size: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", "SimSun", sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.8;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        h1 {
+            font-size: calc(var(--base-font-size) * 2.6);
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        header p {
+            color: var(--text-color);
+            font-size: calc(var(--base-font-size) * 2.0);
+            font-style: italic;
+        }
+
+        .history-section {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 6px;
+            box-shadow: 0 3px 9px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .history-content {
+            font-size: calc(var(--base-font-size) * 1.1);
+            line-height: 1.8;
+            text-align: justify;
+            text-indent: 2em;
+        }
+
+        /* 修改后的宗派字序样式 */
+        .generation-section {
+            margin-top: 30px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 6px;
+            box-shadow: 0 3px 9px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .generation-title {
+            font-size: calc(var(--base-font-size) * 2.0);
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .generation-content {
+            font-size: calc(var(--base-font-size) * 1.1);
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        .generation-poem {
+            margin-top: 20px;
+            font-family: "SimSun", serif;
+            color: #5a3921;
+            background-color: #f9f5f0; /* 只保留底色，去除阴影 */
+            padding: 20px;
+            border-radius: 4px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .generation-line {
+            font-size: calc(var(--base-font-size) * 3.2);
+            line-height: 1.5;
+            text-align: center;
+            margin: 10px 0;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .branch-container {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 6px;
+            box-shadow: 0 3px 9px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .branch-title {
+            font-size: calc(var(--base-font-size) * 1.4);
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border-radius: 4px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .branch-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .branch-card {
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .branch-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            border-color: var(--primary-color);
+        }
+
+        .branch-card a {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: block;
+            font-size: calc(var(--base-font-size) * 2.4);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .branch-description {
+            font-size: calc(var(--base-font-size) * 0.9);
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .branch-icon {
+            font-size: calc(var(--base-font-size) * 2.0);
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .no-verify-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: calc(var(--base-font-size) * 0.7);
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+
+        /* 照片墙样式 */
+        .photo-wall-container {
+            max-width: 800px;
+            margin: 0 auto 30px;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 6px;
+            box-shadow: 0 3px 9px rgba(0,0,0,0.08);
+            border: 1px solid var(--border-color);
+        }
+
+        .photo-wall-title {
+            font-size: calc(var(--base-font-size) * 1.4);
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+            padding: 15px;
+            background: #f8f8f8;
+            color: var(--primary-color);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .photo-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            background-color: white;
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .photo-tab-btn {
+            padding: 12px 25px;
+            margin: 0 5px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            color: #495057;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .photo-tab-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .photo-tab-btn:hover:not(.active) {
+            background-color: #dee2e6;
+            transform: translateY(-2px);
+        }
+
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            padding: 0 10px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            aspect-ratio: 1/1;
+            background-color: white;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(52, 58, 64, 0.85);
+            color: white;
+            padding: 12px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            font-size: 0.95rem;
+        }
+
+        .photo-item:hover .photo-caption {
+            transform: translateY(0);
+        }
+
+        .photo-tab-content {
+            display: none;
+        }
+
+        .photo-tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* 大团圆特殊样式 */
+        .reunion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 0 10px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .reunion-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            aspect-ratio: 4/3;
+            background-color: white;
+        }
+
+        .reunion-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .reunion-item .photo-caption {
+            background: rgba(108, 117, 125, 0.9);
+            font-size: 1rem;
+            padding: 15px;
+        }
+
+        .reunion-item::before {
+            content: "大团圆";
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            z-index: 10;
+        }
+
+        /* 修改后的平台说明版块样式 */
+        .platform-info {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 6px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .platform-title {
+            font-size: calc(var(--base-font-size) * 1.4);
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+            padding: 15px;
+            background: #f8f8f8;
+            color: var(--primary-color);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .platform-content {
+            font-size: calc(var(--base-font-size) * 1.1);
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        .platform-section {
+            margin-bottom: 20px;
+        }
+
+        .platform-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: calc(var(--base-font-size) * 1.2);
+            border-left: 4px solid var(--primary-color);
+            padding-left: 10px;
+        }
+
+        .platform-section p {
+            margin-bottom: 8px;
+            text-indent: 2em;
+        }
+
+        .platform-tip {
+            background-color: #f8f8f8;
+            border-left: 4px solid var(--secondary-color);
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 0 4px 4px 0;
+            font-size: calc(var(--base-font-size) * 1.0);
+        }
+
+        .platform-blessing {
+            width: 100%;
+            text-align: center;
+            font-style: italic;
+            color: var(--primary-color);
+            margin-top: 15px;
+            padding: 10px 0;
+            background: rgba(155, 34, 38, 0.1);
+            border-radius: 4px;
+            border: 1px solid var(--primary-color);
+            font-size: calc(var(--base-font-size) * 2.2);
+        }
+
+        /* 验证模态框样式 */
+        .verification-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .verification-content {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .verification-title {
+            font-size: calc(var(--base-font-size) * 1.4);
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .verification-question {
+            font-size: calc(var(--base-font-size) * 1.1);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .verification-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: calc(var(--base-font-size) * 1.0);
+        }
+
+        .verification-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .verification-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: calc(var(--base-font-size) * 1.0);
+            transition: background-color 0.3s;
+        }
+
+        .verification-submit {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .verification-submit:hover {
+            background-color: #7a1a1f;
+        }
+
+        .verification-cancel {
+            background-color: #f0f0f0;
+            color: var(--text-color);
+        }
+
+        .verification-cancel:hover {
+            background-color: #e0e0e0;
+        }
+
+        .verification-error {
+            color: #d32f2f;
+            font-size: calc(var(--base-font-size) * 0.9);
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* 修复媒体查询语法错误 */
+        @media (max-width: 800px) {
+            .generation-line {
+                font-size: calc(var(--base-font-size) * 1.8);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .branch-list {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: calc(var(--base-font-size) * 2.0);
+            }
+            
+            header p {
+                font-size: calc(var(--base-font-size) * 1.5);
+            }
+
+            .branch-card a {
+                font-size: calc(var(--base-font-size) * 2.0);
+            }
+            
+            .platform-title {
+                font-size: calc(var(--base-font-size) * 1.2);
+            }
+            
+            .platform-content {
+                font-size: calc(var(--base-font-size) * 1.0);
+            }
+            
+            .verification-content {
+                padding: 20px;
+            }
+            
+            .verification-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .photo-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .reunion-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .photo-tab-btn {
+                padding: 8px 15px;
+                margin: 5px;
+                font-size: 0.9rem;
+                min-width: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>新安琅琊王氏道桥恒公支<br>谱载查询平台（各房导航）</h1>
+        <p>传承家族意识 · 卅六世先军使命</p>
+    </header>
+
+    <div class="history-section">
+        <div class="history-content">
+             吾王氏远祖，始于东周灵王太子晋。其子宗敬公，始以王为氏，开族立宗。自太子晋至唐末大献公，历五十世，定居苦竹港，奠定新安琅琊王氏基业。七房思经公长子敬海公，迁龙潭；五世祖千十三公，徙居十六都浙桥，开基；十一世祖代五公，迁居桦林畈；十五世祖庚一公，再迁酬山。逮至十九世、始迁祖恒公，离酬山，择道桥定居，遂致瓜瓞绵延。自献公以下迄今，计已累卅九世。
+        </div>
+        
+        <!-- 修改后的宗派字序部分 -->
+        <div class="generation-section">
+            <h3 class="generation-title">新安琅琊王氏宗派字序</h3>
+            <div class="generation-content">
+                <p>系清嘉庆十四年，新安琅琊王氏在洪都编修大成宗谱时，以大献公生平赞词为主确定的。共十句五十字：</p>
+                <div class="generation-poem">
+                    <div class="generation-line">崇必命为孝</div>
+                    <div class="generation-line">长怀及第先</div>
+                    <div class="generation-line">龙飞当盛日</div>
+                    <div class="generation-line">凤纪际熙年</div>
+                    <div class="generation-line">士乐鸿才达</div>
+                    <div class="generation-line">臣欢圣化绵</div>
+                    <div class="generation-line">万方培植后</div>
+                    <div class="generation-line">庶福统临前</div>
+                    <div class="generation-line">钟毓清宁美</div>
+                    <div class="generation-line">槐堂集象贤</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="branch-container">
+        <div class="branch-title">房支入口</div>
+        <div class="branch-list">
+            <div class="branch-card" data-branch="长房" data-url="https://w-xianjun.github.io/zhangfang19-36/" data-verify="false">
+                <div class="no-verify-badge">免验证</div>
+                <div class="branch-icon">🏛</div>
+                <a href="javascript:void(0);">长房查询</a>
+                <div class="branch-description">十九世至三十六世</div>
+            </div>
+            <div class="branch-card" data-branch="后房" data-url="https://w-xianjun.github.io/houfang19-38/" data-verify="true">
+                <div class="branch-icon">🏯</div>
+                <a href="javascript:void(0);">后房查询</a>
+                <div class="branch-description">十九世至三十八世</div>
+            </div>
+            <div class="branch-card" data-branch="前房" data-url="https://w-xianjun.github.io/qianfang19-39/" data-verify="true">
+                <div class="branch-icon">🕌</div>
+                <a href="javascript:void(0);">前房查询</a>
+                <div class="branch-description">十九世至三十九世</div>
+            </div>
+            <div class="branch-card" data-branch="下房" data-url="https://w-xianjun.github.io/xiafang19-36/" data-verify="true">
+                <div class="branch-icon">🏡</div>
+                <a href="javascript:void(0);">下房查询</a>
+                <div class="branch-description">十九世至三十六世</div>
+            </div>
+            <div class="branch-card" data-branch="上房" data-url="https://w-xianjun.github.io/shangfang19-37/" data-verify="true">
+                <div class="branch-icon">🏠</div>
+                <a href="javascript:void(0);">上房查询</a>
+                <div class="branch-description">十九世至三十七世</div>
+            </div>
+            <div class="branch-card" data-branch="绍育支" data-url="https://w-xianjun.github.io/shaoyu19-30/" data-verify="false">
+                <div class="no-verify-badge">免验证</div>
+                <div class="branch-icon">🌳</div>
+                <a href="javascript:void(0);">绍育支查询</a>
+                <div class="branch-description">十九世至三十世</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 照片墙版块 - 已添加完整照片路径 -->
+    <div class="photo-wall-container">
+        <div class="photo-wall-title">家族记忆</div>
+        <div class="photo-tabs">
+            <button class="photo-tab-btn active" onclick="openPhotoTab('ancestors')">家族传承</button>
+            <button class="photo-tab-btn" onclick="openPhotoTab('memories')">岁月留痕</button>
+            <button class="photo-tab-btn" onclick="openPhotoTab('objects')">时光物件</button>
+            <button class="photo-tab-btn" onclick="openPhotoTab('reunion')">大团圆</button>
+        </div>
+        
+        <!-- 家族传承 -->
+        <div id="ancestors" class="photo-tab-content active">
+            <div class="photo-grid">
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="下房32-13">
+                    <div class="photo-caption">下房32-13</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/hou33-5.jpg" alt="hou33-5">
+                    <div class="photo-caption">hou33-5</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/hou33-33.jpg" alt="hou33-33">
+                    <div class="photo-caption">hou33-33</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia33-6.jpg" alt="xia33-6">
+                    <div class="photo-caption">xia33-6</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia33-13.jpg" alt="xia33-13">
+                    <div class="photo-caption">xia33-13</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="祖母年轻时">
+                    <div class="photo-caption">祖母年轻时</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 岁月留痕 -->
+        <div id="memories" class="photo-tab-content">
+            <div class="photo-grid">
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="童年全家福">
+                    <div class="photo-caption">童年全家福</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="小学毕业">
+                    <div class="photo-caption">小学毕业</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="家庭旅行">
+                    <div class="photo-caption">家庭旅行</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="节日聚餐">
+                    <div class="photo-caption">节日聚餐</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="老房子">
+                    <div class="photo-caption">老房子</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="儿时玩具">
+                    <div class="photo-caption">儿时玩具</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 时光物件 -->
+        <div id="objects" class="photo-tab-content">
+            <div class="photo-grid">
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="老式收音机">
+                    <div class="photo-caption">老式收音机</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="缝纫机">
+                    <div class="photo-caption">缝纫机</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="老照片">
+                    <div class="photo-caption">老照片</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="怀表">
+                    <div class="photo-caption">怀表</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="旧书">
+                    <div class="photo-caption">旧书</div>
+                </div>
+                <div class="photo-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="陶瓷茶具">
+                    <div class="photo-caption">陶瓷茶具</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 大团圆 -->
+        <div id="reunion" class="photo-tab-content">
+            <div class="reunion-grid">
+                <div class="reunion-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="2025年春节全家福">
+                    <div class="photo-caption">2025年春节全家福</div>
+                </div>
+                <div class="reunion-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="祖父80大寿合影">
+                    <div class="photo-caption">祖父80大寿合影</div>
+                </div>
+                <div class="reunion-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="四代同堂珍贵瞬间">
+                    <div class="photo-caption">四代同堂珍贵瞬间</div>
+                </div>
+                <div class="reunion-item">
+                    <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/xia32-13.jpg" alt="家族旅行大合影">
+                    <div class="photo-caption">家族旅行大合影</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改后的平台说明版块 -->
+    <div class="platform-info">
+        <div class="platform-title">平台说明</div>
+        <div class="platform-content">
+            <div class="platform-section">
+                <h3>平台建设</h3>
+                <p>2025年，本人于轮值家族事务期间，为理清祠堂牌位关系，由整理名录起步，后转为系统录入老谱，并逐步扩展至族人信息汇总、支谱编修、源流追溯、先世补录及旧资料整理等工作。原拟外请开发，未遇专人，遂从零自学搭建，经持续优化，终成此实用平台。</p>
+            </div>
+            
+            <div class="platform-section">
+                <h3>平台宗旨</h3>
+                <p>旨在梳理家族世系、方便后辈联宗，并提供先世查询与祭祀支持。以数字载体突破纸谱局限，应对未来村族变迁，为后世寻根溯源、凝聚亲缘提供长久依托。</p>
+            </div>
+            
+            <div class="platform-section">
+                <h3>使用指引</h3>
+                <p>欢迎使用。请按以下步骤，便捷查访家族脉络：</p>
+                <p><strong>览脉络</strong> - 建议先查看"家族历史"，了解王氏迁徙发展，建立世系概览。</p>
+                <p><strong>选房支</strong> - 数据已分房支陈列，请依已知信息，在"各房支系查询入口"点选所属支系。</p>
+                <p><strong>查世系</strong> - 点击后进入该支专属页面，可按世系查找。</p>
+                
+                <div class="platform-tip">
+                    <strong>提示：</strong>长房和绍育支可直接访问，其他四房需要验证身份。如不确定所属房支，可试选相近支系查询。各支名称下标有世系范围（如"十九世至三十六世"），可供参考。
+                </div>
+                
+                <div class="platform-blessing">
+                    祝族人寻根顺利，薪火相传！
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 验证模态框 -->
+    <div class="verification-modal" id="verificationModal">
+        <div class="verification-content">
+            <div class="verification-title" id="verificationTitle">房支验证</div>
+            <div class="verification-question" id="verificationQuestion"></div>
+            <input type="text" class="verification-input" id="verificationInput1" placeholder="请输入第一个人名">
+            <input type="text" class="verification-input" id="verificationInput2" placeholder="请输入第二个人名">
+            <input type="text" class="verification-input" id="verificationInput3" placeholder="请输入第三个人名">
+            <div class="verification-error" id="verificationError">验证失败，请重新输入</div>
+            <div class="verification-buttons">
+                <button class="verification-button verification-cancel" id="verificationCancel">取消</button>
+                <button class="verification-button verification-submit" id="verificationSubmit">验证</button>
+            </div>
+        </div>
+    </div>
+
+<footer style="text-align: center; margin-top: 50px; padding: 30px 0; border-top: 1px solid var(--border-color);">
+    <p>© 家族记忆珍藏馆 | 策划设计：王先军15000899766</p>
+</footer>
+
+    <script>
+        // 各房支31世后人名列表
+        const branchNames31st = {
+            "长房": [""],
+            "后房": ["献中", "献瑞", "满福", "子坊", "子赓", "序镛", "序功", "序德", "序典", "序宾", 
+    "钟汉", "钟岱", "钟秀", "钟嶽", "钟彝", "钟淮", "用安", "用康", "用极", "旺坤", 
+    "旺恒", "旺咸", "旺南", "旺乾", "旺离", "旺震", "先第", "泮林", "先明", "立俊", 
+    "立奇", "万青", "万全", "万冕", "豫丰", "翠丰", "豫泰", "乾泰", "佩珩", "佩球", 
+    "佩璜", "佩瓒", "佩琨", "伯勤", "仲勤", "学勤", "季勤", "能俭", "学俭", "宜俭", 
+    "全中", "全孝", "全鑫", "永升", "永超", "永清", "永盛", "协宽", "协信", "协惠", 
+    "协恭", "协敏", "银喜", "国璠", "国瑞", "灵瑞", "端喜", "炳煌", "炳照", "炳亮", 
+    "炳耀", "先恒", "松茂", "竹青", "梅芳", "柏青", "志学", "柏香", "秉连", "丑连", 
+    "及鳌", "驾山", "驾鳌", "希祯", "及芳", "及和", "志和", "步鳌", "詠珊", "詠瑚", 
+    "詠芝", "詠芳", "镇南", "詠南", "述颜", "述曾", "效曾", "耐思", "松山", "松华", 
+    "锦魁", "建芳", "渊", "维", "所苟", "云山", "云青", "福云", "小春", "春水", 
+    "春初", "春保", "春庆", "青小", "小庆", "玉朋", "振江", "振河", "振汉", "振海", 
+    "振湖", "振泽", "振源", "月贵", "月宝", "佐璋", "月耀", "月东", "月华", "月龙", 
+    "月明", "月光", "月芦", "月虎", "奇璋", "秋林", "小林", "第高", "第广", "第厚", 
+    "第宽", "秋生", "小秋", "振华", "振国", "利民", "木初", "群伟", "杏初", "江淮", 
+    "江汉", "江河", "月初", "岩初", "旺初", "小初", "步仁", "银贵", "银华", "叔宝", 
+    "叔仁", "火初", "火保", "智才", "德才", "玉斌", "小霞", "云保", "秋保", "思成", 
+    "希琼", "海露", "建春", "建东", "建荣", "建晶", "强", "云生", "云宙", "惠明", 
+    "惠珍", "文斌", "文广", "展", "琦", "亮", "维", "鹏飞", "鹏剑", "鹏玲", 
+    "鹏燕", "重轮", "重亮", "轮妹", "重艳", "重满", "重月", "先兰", "美兰", "小兰", 
+    "满兰", "五兰", "陆兰", "重明", "美春", "智春", "体春", "晓莺", "晓良", "莎莎", 
+    "昊轩", "锦洋", "冰颖", "漫华", "琴", "烈", "桑", "黎", "甬", "萍", 
+    "玮琦", "钰", "鸾", "雅珣", "畔", "珂", "紫仪", "民紫", "江仪", "梓涵", 
+    "晋杰", "晋霞", "梓鑫", "梓颖", "子焱", "子雯", "沐訸", "俊涛", "俊轩", "先芳", 
+    "先华", "先灿", "炳初", "先初", "先虎", "先彪", "先豹", "先熊", "先飞", "普全", 
+    "飞燕", "振", "勇", "青", "艳", "昭", "洁", "利阳", "念维", "念兰", 
+    "先斌", "先波", "先义", "先卯", "先光", "先霞", "先美", "力", "玲英", "玲霞", 
+    "玲玉", "先文", "文杰", "灿", "莉", "芬", "燕燕", "维维", "娟娟", "鹏", 
+    "淼兰", "先勇", "先锋", "文锋", "海锋", "玲燕", "燕红", "怡玲", "子宸", "文良", 
+    "学良", "文军", "文霞", "文娟", "腾", "飞腾", "思敏", "江", "可杰", "戴婧", 
+    "子豪", "子慧", "宸俊烁", "俊宇", "俊凡", "梓宸", "佳雨", "伟", "颖", "毅", 
+    "璟", "瑗", "贝利斯", "青云", "皓卿", "龙轩", "皙玥", "亦桥", "龙雨", "战", 
+    "羽", "子涵", "子怡", "乐山", "涵杰", "涵瑾", "朗", "浩宇", "语芯", "佳琪", 
+    "佳乐", "思琪", "语琪", "宝锋", "宝钰", "明远", "优优", "子童", "诗语", "毅恒", 
+    "璟睿", "瑗曦", "贝安", "青云泽", "皓宇", "龙承宇", "皙玥瑶", "亦辰", "龙雨泽", 
+    "陈诺", "昕悦", "璟恩泽", "晗宇", "晗睿", "悦安", "棋泽", "伯睿", "梦泽", "梦涵", 
+    "怀瑾", "弘泽", "龙轩宇", "龙琪睿", "慧琴泽", "慧萍瑶", "慧琳曦", "楚明泽", "慧欣瑶", 
+    "墨霖泽", "诗懿瑶", "珵泽宇", "珵浠睿", "安栩泽", "靖琪宇", "佳琪瑶", "泽睿", "馨馨瑶", 
+    "子杰泽", "慧泽", "姿瑶", "子豪宇", "子涵瑶", "朝辉泽", "欣妍瑶", "烜文泽"],
+            "前房": ["世哲", "世球", "世杰", "世辅", "世纯", "世懋", "世享", "家泽", "润泽", "家裕", 
+    "家潘", "家翰", "恩泽", "梦亨", "肇亨", "正亨", "炳亨", "家仁", "家廉", "家骏", 
+    "家谟", "家齐", "家声", "家让", "若川", "若美", "若林", "思恭", "思宽", "思亮", 
+    "思明", "思勤", "思荣", "绚煌", "绚斗", "绚彩", "思诚", "胜友", "胜才", "明德", 
+    "思聪", "思忠", "思义", "思敬", "思煌", "树槐", "植槐", "述元", "述吉", "三华", 
+    "及钊", "水林", "和林", "德新", "德昌", "又新", "再新", "华苟", "吉希", "述希", 
+    "及盛", "及松", "九龄", "及柏", "及青", "及廉", "及泰", "及华", "及茂", "竹泉", 
+    "及第", "及元", "瑶琳", "品灿", "江波", "江涛", "耀先", "耀民", "利华", "官贵", 
+    "培松", "祖金", "咚金", "鞋艳", "绍维", "绍甫", "绍曾", "绍荆", "爱兰", "细毛", 
+    "凤钗", "伯甫", "仲甫", "裕甫", "水花", "仁武", "锦", "芬", "佳", "小华", 
+    "细华", "永红", "先发", "先海", "先军", "珏", "碧", "珍", "爱", "先琪", 
+    "先伟", "益鹏", "鹏华", "先启", "先二", "先三", "先贵", "先龙", "木水", "海水", 
+    "先平", "先保", "先云", "红波", "四红", "论红", "效宏", "颖洪", "锴黉", "学鸿", 
+    "学渊", "学群", "智渊", "先举", "先羊", "美保", "佳宝", "煌", "汪", "磊", 
+    "娉", "伟", "婷", "钟岳", "龙卿", "良", "梦", "思远", "思彦", "家亮", 
+    "定宇", "甜宁", "宁", "辰", "星宇", "晶晶", "莹莹", "鑫鹏", "欣怡", "玉强", 
+    "玉芬", "玉莹", "玉盼", "卫华", "冬华", "建明", "建义", "建霞", "锦云", "林丽", 
+    "林欣", "凌波", "玲玉", "扬波", "国波", "龙波", "清博", "璐", "进华", "苗苗", 
+    "珺晖", "珺如", "瑛茹", "骏瑄", "君安", "君雅", "锟翔", "鹏翔", "琦", "锦翔", 
+    "锦凤", "建", "君", "江", "凤", "吉祥", "飞翔", "玙礼", "尚飞", "小序", 
+    "政柯", "瑞柯", "佳丽", "佳曦", "南飞", "梦飞", "宇飞", "宇涵", "飞", "梓辰", 
+    "粤", "梦溪", "亚飞", "书翊", "梓阳", "晔", "星悦", "煜", "东昕", "东旭", 
+    "盛怡", "乐佑", "毓颖", "清栩"],
+            "下房": ["承先", "承谟", "承宾", "春保", "金保", "宗傅", "承发", "承训", "义发", 
+    "文耀", "文亮", "文献", "水喜", "植山", "文锦", "崇兴", "秀华", "文华", 
+    "锦华", "庆华", "茂华", "盛华", "伯元", "仲元", "叔元", "雪贵", "季元", 
+    "华炎", "海炎", "任威", "怀灿", "怀兵", "卫苟", "怀勃", "怀璋", "大满", 
+    "细满", "正满", "怀先", "金龙", "次龙", "毛龙", "小龙", "秒龙", "玉龙", 
+    "泽民", "惠民", "鞋龙", "瑞龙", "如龙", "九龙", "智", "青玉", "冬冬", 
+    "荣荣", "金初", "红金", "荒初", "荒林", "民初", "颢枫", "红初", "艳学", 
+    "红宝", "超平", "凤萍", "和初", "和宝", "和军", "利军", "臻", "树兵", 
+    "涛", "海涛", "浩", "浩娟", "玢燕", "惠燕", "红卫", "小兵", "红兵", 
+    "红锋", "利新", "利斌", "利波", "艳斌", "金晓", "春", "珍", "斌", 
+    "丹", "腾", "美琦", "梓航", "心航", "伊航", "梓锐", "梓艺", "建平", 
+    "乾", "雯", "慧", "青", "红", "磊", "健", "院", "奕珊", 
+    "奕璐", "泽烽", "泽梋", "泽雨", "鑫辰", "依依", "玟玟", "韧", "匆匆", 
+    "姣", "宇钦", "嘉豪", "嘉鑫", "子歌", "钰歌", "毅林", "雨婷", "梦玲", 
+    "依婷", "子俊", "倩倩", "超超", "彦钧", "棹浔", "煜洁", "焕宇", "宇凡", 
+    "坤", "涵", "欣蕾", "欣娴", "乾安", "奕凯", "家宏", "承宏", "浩宇", 
+    "宇辰", "语汐"],
+            "上房": ["际尧", "际善", "际盛", "汝梅", "汝芬", "汝昌", "在泮", "在藻", "钦铭", "恒和", 
+    "恒泰", "国泰", "恒义", "荣山", "恒轩", "细贱", "砥江", "致祥", "致巍", "怀近", 
+    "柱芳", "小铭", "小君", "昌晋", "寿松", "寿柏", "银宝", "红平", "文晋", "文英", 
+    "文越", "文莉", "庆初", "庆林", "龙初", "秋水", "冬水", "旬", "燕玲", "玲玲", 
+    "佳玲", "绍宇", "雨凝", "剑春", "正春", "茂春", "锦春", "玉春", "满春", "早春", 
+    "先建", "平平", "珺杰", "逸杰", "成杰", "勇杰", "旭敏", "俊吉", "珺柠"],
+            "绍育支": [""]
+        };
+
+        // 获取DOM元素
+        const modal = document.getElementById('verificationModal');
+        const modalTitle = document.getElementById('verificationTitle');
+        const modalQuestion = document.getElementById('verificationQuestion');
+        const modalInput1 = document.getElementById('verificationInput1');
+        const modalInput2 = document.getElementById('verificationInput2');
+        const modalInput3 = document.getElementById('verificationInput3');
+        const modalError = document.getElementById('verificationError');
+        const modalCancel = document.getElementById('verificationCancel');
+        const modalSubmit = document.getElementById('verificationSubmit');
+        
+        let currentBranch = null;
+        let currentUrl = null;
+
+        // 为每个房支卡片添加点击事件
+        document.querySelectorAll('.branch-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const branch = this.getAttribute('data-branch');
+                const url = this.getAttribute('data-url');
+                const requiresVerification = this.getAttribute('data-verify') === 'true';
+                
+                // 检查是否需要验证
+                if (!requiresVerification) {
+                    // 不需要验证，直接跳转
+                    window.open(url, '_blank');
+                    return;
+                }
+                
+                // 检查是否已经验证过
+                const verifiedBranches = JSON.parse(localStorage.getItem('verifiedBranches') || '{}');
+                if (verifiedBranches[branch]) {
+                    // 如果已经验证过，直接跳转
+                    window.open(url, '_blank');
+                    return;
+                }
+                
+                // 显示验证模态框
+                currentBranch = branch;
+                currentUrl = url;
+                modalTitle.textContent = `${branch}验证`;
+                modalQuestion.textContent = `请输入${branch}31世后任意三人的名字（至少两个正确即可通过）`;
+                modalInput1.value = '';
+                modalInput2.value = '';
+                modalInput3.value = '';
+                modalError.style.display = 'none';
+                modal.style.display = 'flex';
+                modalInput1.focus();
+            });
+        });
+
+        // 验证提交
+        modalSubmit.addEventListener('click', function() {
+            const name1 = modalInput1.value.trim();
+            const name2 = modalInput2.value.trim();
+            const name3 = modalInput3.value.trim();
+            
+            const errorEl = document.getElementById('verificationError');
+            
+            if (!name1 || !name2 || !name3) {
+                errorEl.textContent = "请完整输入三个人名！";
+                errorEl.style.display = 'block';
+                return;
+            }
+            
+            const inputNames = [name1, name2, name3];
+            const correctNames = branchNames31st[currentBranch];
+            let correctCount = 0;
+            
+            // 检查每个输入的名字是否在正确列表中
+            inputNames.forEach(name => {
+                if (correctNames.includes(name)) {
+                    correctCount++;
+                }
+            });
+            
+            // 至少2个正确即可通过
+            if (correctCount >= 2) {
+                errorEl.style.display = 'none';
+                
+                // 记录验证状态
+                const verifiedBranches = JSON.parse(localStorage.getItem('verifiedBranches') || '{}');
+                verifiedBranches[currentBranch] = true;
+                localStorage.setItem('verifiedBranches', JSON.stringify(verifiedBranches));
+                
+                // 关闭模态框并跳转
+                modal.style.display = 'none';
+                window.open(currentUrl, '_blank');
+            } else {
+                errorEl.textContent = `验证失败！您输入了${correctCount}个正确人名，需要至少2个正确。`;
+                errorEl.style.display = 'block';
+                modalInput1.focus();
+            }
+        });
+
+        // 取消验证
+        modalCancel.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // 按Enter键提交
+        modalInput3.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                modalSubmit.click();
+            }
+        });
+
+        // 点击模态框外部关闭
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // 照片墙切换功能
+        function openPhotoTab(tabName) {
+            // 隐藏所有标签内容
+            const tabContents = document.getElementsByClassName("photo-tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+            
+            // 移除所有按钮的active类
+            const tabButtons = document.getElementsByClassName("photo-tab-btn");
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove("active");
+            }
+            
+            // 显示选中的标签内容
+            document.getElementById(tabName).classList.add("active");
+            
+            // 为当前按钮添加active类
+            event.currentTarget.classList.add("active");
+        }
+    </script>
+</body>
+</html>
