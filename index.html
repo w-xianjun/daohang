@@ -102,7 +102,7 @@
         }
 
         .generation-line {
-            font-size: calc(var(--base-font-size) * 3.2);
+            font-size: calc(var(--base-font-size) * 2.6);
             line-height: 1.5;
             text-align: center;
             margin: 10px 0;
@@ -252,28 +252,32 @@
             transform: translateY(-2px);
         }
 
+        /* 照片网格布局 - 修改部分 */
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            padding: 0 10px;
+            grid-template-columns: repeat(2, 1fr); /* 默认一栏两张 */
+            gap: 20px;
+            padding: 0 15px;
             max-width: 800px;
             margin: 0 auto;
         }
 
+        /* 时光物件和大团圆 - 一栏一张照片 */
+        #objects .photo-grid,
+        #reunion .photo-grid {
+            grid-template-columns: 1fr; /* 单列布局 */
+            max-width: 600px; /* 限制最大宽度 */
+        }
+
+        /* 照片项样式 */
         .photo-item {
             position: relative;
             overflow: hidden;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            aspect-ratio: 1/1;
+            aspect-ratio: 4/3;
             background-color: white;
-        }
-
-        .photo-item:hover {
-            transform: scale(1.03);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         .photo-item img {
@@ -300,51 +304,7 @@
             transform: translateY(0);
         }
 
-        .photo-tab-content {
-            display: none;
-        }
-
-        .photo-tab-content.active {
-            display: block;
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
         /* 大团圆特殊样式 */
-        .reunion-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 0 10px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .reunion-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 12px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            aspect-ratio: 4/3;
-            background-color: white;
-        }
-
-        .reunion-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .reunion-item .photo-caption {
-            background: rgba(108, 117, 125, 0.9);
-            font-size: 1rem;
-            padding: 15px;
-        }
-
         .reunion-item::before {
             content: "大团圆";
             position: absolute;
@@ -513,61 +473,34 @@
             display: none;
         }
 
-        /* 修复媒体查询语法错误 */
-        @media (max-width: 800px) {
-            .generation-line {
-                font-size: calc(var(--base-font-size) * 1.8);
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .photo-grid {
+                grid-template-columns: 1fr; /* 手机端全部单列 */
+                gap: 15px;
+            }
+            
+            #objects .photo-grid,
+            #reunion .photo-grid {
+                max-width: 100%;
             }
         }
 
-        @media (max-width: 600px) {
-            .branch-list {
-                grid-template-columns: 1fr;
+        @media (min-width: 1200px) {
+            /* 大屏幕上家族传承和岁月留痕保持两列 */
+            #ancestors .photo-grid,
+            #memories .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
-            
-            h1 {
-                font-size: calc(var(--base-font-size) * 2.0);
-            }
-            
-            header p {
-                font-size: calc(var(--base-font-size) * 1.5);
-            }
+        }
 
-            .branch-card a {
-                font-size: calc(var(--base-font-size) * 2.0);
-            }
-            
-            .platform-title {
-                font-size: calc(var(--base-font-size) * 1.2);
-            }
-            
-            .platform-content {
-                font-size: calc(var(--base-font-size) * 1.0);
-            }
-            
-            .verification-content {
-                padding: 20px;
-            }
-            
-            .verification-buttons {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .photo-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            }
-            
-            .reunion-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-            
-            .photo-tab-btn {
-                padding: 8px 15px;
-                margin: 5px;
-                font-size: 0.9rem;
-                min-width: 100px;
-            }
+        /* 照片墙内容样式 */
+        .photo-tab-content {
+            display: none;
+        }
+        
+        .photo-tab-content.active {
+            display: block;
         }
     </style>
 </head>
@@ -588,16 +521,11 @@
             <div class="generation-content">
                 <p>系清嘉庆十四年，新安琅琊王氏在洪都编修大成宗谱时，以大献公生平赞词为主确定的。共十句五十字：</p>
                 <div class="generation-poem">
-                    <div class="generation-line">崇必命为孝</div>
-                    <div class="generation-line">长怀及第先</div>
-                    <div class="generation-line">龙飞当盛日</div>
-                    <div class="generation-line">凤纪际熙年</div>
-                    <div class="generation-line">士乐鸿才达</div>
-                    <div class="generation-line">臣欢圣化绵</div>
-                    <div class="generation-line">万方培植后</div>
-                    <div class="generation-line">庶福统临前</div>
-                    <div class="generation-line">钟毓清宁美</div>
-                    <div class="generation-line">槐堂集象贤</div>
+                    <div class="generation-line">崇必命为孝  长怀及第先</div>
+                    <div class="generation-line">龙飞当盛日  凤纪际熙年</div>
+                    <div class="generation-line">士乐鸿才达  臣欢圣化绵</div>
+                    <div class="generation-line">万方培植后  庶福统临前</div>
+                    <div class="generation-line">钟毓清宁美  槐堂集象贤</div>
                 </div>
             </div>
         </div>
@@ -610,48 +538,48 @@
                 <div class="no-verify-badge">免验证</div>
                 <div class="branch-icon">🏛</div>
                 <a href="javascript:void(0);">长房查询</a>
-                <div class="branch-description">十九世至三十六世</div>
+                <div class="branch-description">十九世至卅六世</div>
             </div>
             <div class="branch-card" data-branch="后房" data-url="https://w-xianjun.github.io/houfang19-38/" data-verify="true">
                 <div class="branch-icon">🏯</div>
                 <a href="javascript:void(0);">后房查询</a>
-                <div class="branch-description">十九世至三十八世</div>
+                <div class="branch-description">十九世至卅八世</div>
             </div>
             <div class="branch-card" data-branch="前房" data-url="https://w-xianjun.github.io/qianfang19-39/" data-verify="true">
                 <div class="branch-icon">🕌</div>
                 <a href="javascript:void(0);">前房查询</a>
-                <div class="branch-description">十九世至三十九世</div>
+                <div class="branch-description">十九世至卅九世</div>
             </div>
             <div class="branch-card" data-branch="下房" data-url="https://w-xianjun.github.io/xiafang19-36/" data-verify="true">
                 <div class="branch-icon">🏡</div>
                 <a href="javascript:void(0);">下房查询</a>
-                <div class="branch-description">十九世至三十六世</div>
+                <div class="branch-description">十九世至卅六世</div>
             </div>
             <div class="branch-card" data-branch="上房" data-url="https://w-xianjun.github.io/shangfang19-37/" data-verify="true">
                 <div class="branch-icon">🏠</div>
                 <a href="javascript:void(0);">上房查询</a>
-                <div class="branch-description">十九世至三十七世</div>
+                <div class="branch-description">十九世至卅七世</div>
             </div>
             <div class="branch-card" data-branch="绍育支" data-url="https://w-xianjun.github.io/shaoyu19-30/" data-verify="false">
                 <div class="no-verify-badge">免验证</div>
                 <div class="branch-icon">🌳</div>
                 <a href="javascript:void(0);">绍育支查询</a>
-                <div class="branch-description">十九世至三十世</div>
+                <div class="branch-description">十九世至卅世</div>
             </div>
         </div>
     </div>
 
-    <!-- 照片墙版块 - 已添加完整照片路径 -->
+    <!-- 照片墙版块 -->
     <div class="photo-wall-container">
         <div class="photo-wall-title">家族记忆</div>
         <div class="photo-tabs">
-            <button class="photo-tab-btn active" onclick="openPhotoTab('ancestors')">家族传承</button>
-            <button class="photo-tab-btn" onclick="openPhotoTab('memories')">岁月留痕</button>
-            <button class="photo-tab-btn" onclick="openPhotoTab('objects')">时光物件</button>
-            <button class="photo-tab-btn" onclick="openPhotoTab('reunion')">大团圆</button>
+            <button class="photo-tab-btn active" data-tab="ancestors">家族传承</button>
+            <button class="photo-tab-btn" data-tab="memories">岁月留痕</button>
+            <button class="photo-tab-btn" data-tab="objects">时光物件</button>
+            <button class="photo-tab-btn" data-tab="reunion">大团圆</button>
         </div>
         
-        <!-- 家族传承 -->
+        <!-- 家族传承 - 一栏两张照片 -->
         <div id="ancestors" class="photo-tab-content active">
             <div class="photo-grid">
                 <div class="photo-item">
@@ -831,8 +759,8 @@
         
         <!-- 大团圆 -->
         <div id="reunion" class="photo-tab-content">
-            <div class="reunion-grid">
-                <div class="reunion-item">
+            <div class="photo-grid">
+                <div class="photo-item reunion-item">
                     <img src="https://raw.githubusercontent.com/w-xianjun/daohang/main/images/hehou1.jpg" alt="后房33-33炳耀及部分家人合影">
                     <div class="photo-caption">后房33-33炳耀及部分家人合影</div>
                 </div>
@@ -897,7 +825,7 @@
     </div>
 
 <footer style="text-align: center; margin-top: 50px; padding: 30px 0; border-top: 1px solid var(--border-color);">
-    <p>© 家族记忆珍藏馆 | 策划设计：王先军15000899766</p>
+    <p>© 家族记忆珍藏馆 | 策划制作：王先军15000899766</p>
 </footer>
 
     <script>
@@ -1105,25 +1033,63 @@
             }
         });
 
-        // 照片墙切换功能
-        function openPhotoTab(tabName) {
-            // 隐藏所有标签内容
-            const tabContents = document.getElementsByClassName("photo-tab-content");
-            for (let i = 0; i < tabContents.length; i++) {
-                tabContents[i].classList.remove("active");
+        // 照片墙功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取所有标签按钮和内容
+            const tabButtons = document.querySelectorAll('.photo-tab-btn');
+            const tabContents = document.querySelectorAll('.photo-tab-content');
+            
+            // 为每个按钮添加点击事件
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // 获取目标标签ID
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    if (tabId) {
+                        // 移除所有active类
+                        tabButtons.forEach(btn => btn.classList.remove('active'));
+                        tabContents.forEach(content => content.classList.remove('active'));
+                        
+                        // 添加active类到当前按钮和内容
+                        this.classList.add('active');
+                        const targetContent = document.getElementById(tabId);
+                        if (targetContent) {
+                            targetContent.classList.add('active');
+                        }
+                    }
+                });
+            });
+            
+            // 初始化第一个标签为active
+            if (!document.querySelector('.photo-tab-content.active')) {
+                const firstButton = tabButtons[0];
+                const firstTab = document.getElementById(firstButton.getAttribute('data-tab'));
+                
+                if (firstButton && firstTab) {
+                    firstButton.classList.add('active');
+                    firstTab.classList.add('active');
+                }
+            }
+        });
+
+        // 保持原有的openPhotoTab函数以兼容旧代码
+        function openPhotoTab(tabName, event) {
+            const tabButtons = document.querySelectorAll('.photo-tab-btn');
+            const tabContents = document.querySelectorAll('.photo-tab-content');
+            
+            // 移除所有active类
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // 添加active类
+            const targetContent = document.getElementById(tabName);
+            if (targetContent) {
+                targetContent.classList.add('active');
             }
             
-            // 移除所有按钮的active类
-            const tabButtons = document.getElementsByClassName("photo-tab-btn");
-            for (let i = 0; i < tabButtons.length; i++) {
-                tabButtons[i].classList.remove("active");
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
             }
-            
-            // 显示选中的标签内容
-            document.getElementById(tabName).classList.add("active");
-            
-            // 为当前按钮添加active类
-            event.currentTarget.classList.add("active");
         }
     </script>
 </body>
