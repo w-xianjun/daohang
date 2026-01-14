@@ -269,6 +269,19 @@
             max-width: 800px; /* 限制最大宽度 */
         }
 
+        /* 单列布局的照片项特殊处理 */
+        #objects .photo-item,
+        #reunion .photo-item {
+            aspect-ratio: 3/2; /* 单列时使用不同的宽高比 */
+            padding: 15px; /* 单列时更大的留白 */
+        }
+
+        #objects .photo-item img,
+        #reunion .photo-item img {
+            max-width: 85%; /* 单列时更大的图片显示 */
+            max-height: 85%;
+        }
+
         /* 照片项样式 */
         .photo-item {
             position: relative;
@@ -276,14 +289,20 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            aspect-ratio: 4/3;
+            aspect-ratio: 4/3; /* 保持宽高比 */
             background-color: white;
+            display: flex; /* 新增：使用flex布局 */
+            align-items: center; /* 新增：垂直居中 */
+            justify-content: center; /* 新增：水平居中 */
+            padding: 10px; /* 新增：添加内边距作为留白 */
         }
 
         .photo-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            width: auto; /* 修改：自动宽度 */
+            height: auto; /* 修改：自动高度 */
+            max-width: 90%; /* 新增：最大宽度90%，留出边距 */
+            max-height: 90%; /* 新增：最大高度90%，留出边距 */
+            object-fit: contain; /* 修改：包含整个图片，不变形 */
             display: block;
         }
 
@@ -488,26 +507,45 @@
         }
 
         /* 响应式设计 */
-        @media (max-width: 768px) {
-            .photo-grid {
-                grid-template-columns: 1fr; /* 手机端全部单列 */
-                gap: 15px;
-            }
-            
-            #objects .photo-grid,
-            #reunion .photo-grid {
-                max-width: 100%;
-            }
-        }
+@media (max-width: 768px) {
+    .photo-grid {
+        grid-template-columns: 1fr; /* 手机端全部单列 */
+        gap: 15px;
+    }
+    
+    .photo-item {
+        aspect-ratio: 3/2; /* 手机端使用更适合的宽高比 */
+        padding: 8px; /* 手机端较小的留白 */
+    }
+    
+    .photo-item img {
+        max-width: 95%; /* 手机端图片更大一些 */
+        max-height: 95%;
+    }
+    
+    #objects .photo-grid,
+    #reunion .photo-grid {
+        max-width: 100%;
+    }
+}
 
-        @media (min-width: 1200px) {
-            /* 大屏幕上家族传承和岁月留痕保持两列 */
-            #ancestors .photo-grid,
-            #memories .photo-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
+@media (min-width: 1200px) {
+    /* 大屏幕上家族传承和岁月留痕保持两列 */
+    #ancestors .photo-grid,
+    #memories .photo-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* 大屏幕上的特殊调整 */
+    .photo-item {
+        padding: 12px;
+    }
+    
+    .photo-item img {
+        max-width: 88%;
+        max-height: 88%;
+    }
+}
         /* 照片墙内容样式 */
         .photo-tab-content {
             display: none;
