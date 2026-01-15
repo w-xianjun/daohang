@@ -49,7 +49,8 @@
             font-style: italic;
         }
 
-        .history-section {
+        /* 视频版块样式 */
+        .video-section {
             max-width: 800px;
             margin: 0 auto 30px;
             background: var(--card-bg);
@@ -59,11 +60,70 @@
             border: 1px solid var(--border-color);
         }
 
-        .history-content {
+        .video-title {
+            font-size: calc(var(--base-font-size) * 1.4);
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-align: center;
+            padding: 15px;
+            background: #f8f8f8;
+            color: var(--primary-color);
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 宽高比 */
+            margin-bottom: 20px;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .video-control-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-size: calc(var(--base-font-size) * 0.9);
+            transition: background-color 0.3s;
+        }
+
+        .video-control-btn:hover {
+            background-color: #7a1a1f;
+        }
+
+        .video-description {
             font-size: calc(var(--base-font-size) * 1.1);
             line-height: 1.8;
             text-align: justify;
-            text-indent: 2em;
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(155, 34, 38, 0.05);
+            border-radius: 4px;
+            border-left: 4px solid var(--primary-color);
         }
 
         /* 修改后的宗派字序样式 */
@@ -95,7 +155,7 @@
             margin-top: 20px;
             font-family: "SimSun", serif;
             color: #5a3921;
-            background-color: #f9f5f0; /* 只保留底色，去除阴影 */
+            background-color: #f9f5f0;
             padding: 20px;
             border-radius: 4px;
             border-left: 4px solid var(--primary-color);
@@ -252,10 +312,10 @@
             transform: translateY(-2px);
         }
 
-        /* 照片网格布局 - 修改部分 */
+        /* 照片网格布局 */
         .photo-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 默认一栏两张 */
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             padding: 0 15px;
             max-width: 800px;
@@ -265,20 +325,20 @@
         /* 时光物件和大团圆 - 一栏一张照片 */
         #objects .photo-grid,
         #reunion .photo-grid {
-            grid-template-columns: 1fr; /* 单列布局 */
-            max-width: 800px; /* 限制最大宽度 */
+            grid-template-columns: 1fr;
+            max-width: 800px;
         }
 
         /* 单列布局的照片项特殊处理 */
         #objects .photo-item,
         #reunion .photo-item {
-            aspect-ratio: 3/2; /* 单列时使用不同的宽高比 */
-            padding: 15px; /* 单列时更大的留白 */
+            aspect-ratio: 3/2;
+            padding: 15px;
         }
 
         #objects .photo-item img,
         #reunion .photo-item img {
-            max-width: 85%; /* 单列时更大的图片显示 */
+            max-width: 85%;
             max-height: 85%;
         }
 
@@ -289,20 +349,20 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            aspect-ratio: 4/3; /* 保持宽高比 */
+            aspect-ratio: 4/3;
             background-color: white;
-            display: flex; /* 新增：使用flex布局 */
-            align-items: center; /* 新增：垂直居中 */
-            justify-content: center; /* 新增：水平居中 */
-            padding: 10px; /* 新增：添加内边距作为留白 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
         }
 
         .photo-item img {
-            width: auto; /* 修改：自动宽度 */
-            height: auto; /* 修改：自动高度 */
-            max-width: 90%; /* 新增：最大宽度90%，留出边距 */
-            max-height: 90%; /* 新增：最大高度90%，留出边距 */
-            object-fit: contain; /* 修改：包含整个图片，不变形 */
+            width: auto;
+            height: auto;
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
             display: block;
         }
 
@@ -323,13 +383,13 @@
             transform: translateY(0);
         }
 
-        /* 时光物件特殊样式 - 新增 */
+        /* 时光物件特殊样式 */
         .object-item::before {
             content: "时光物件";
             position: absolute;
             top: 10px;
             right: 10px;
-            background: #28a745; /* 使用不同的颜色区分 */
+            background: #28a745;
             color: white;
             padding: 5px 10px;
             border-radius: 20px;
@@ -507,45 +567,49 @@
         }
 
         /* 响应式设计 */
-@media (max-width: 768px) {
-    .photo-grid {
-        grid-template-columns: 1fr; /* 手机端全部单列 */
-        gap: 15px;
-    }
-    
-    .photo-item {
-        aspect-ratio: 3/2; /* 手机端使用更适合的宽高比 */
-        padding: 8px; /* 手机端较小的留白 */
-    }
-    
-    .photo-item img {
-        max-width: 95%; /* 手机端图片更大一些 */
-        max-height: 95%;
-    }
-    
-    #objects .photo-grid,
-    #reunion .photo-grid {
-        max-width: 100%;
-    }
-}
+        @media (max-width: 768px) {
+            .photo-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .photo-item {
+                aspect-ratio: 3/2;
+                padding: 8px;
+            }
+            
+            .photo-item img {
+                max-width: 95%;
+                max-height: 95%;
+            }
+            
+            #objects .photo-grid,
+            #reunion .photo-grid {
+                max-width: 100%;
+            }
+            
+            .video-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
 
-@media (min-width: 1200px) {
-    /* 大屏幕上家族传承和岁月留痕保持两列 */
-    #ancestors .photo-grid,
-    #memories .photo-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    /* 大屏幕上的特殊调整 */
-    .photo-item {
-        padding: 12px;
-    }
-    
-    .photo-item img {
-        max-width: 88%;
-        max-height: 88%;
-    }
-}
+        @media (min-width: 1200px) {
+            #ancestors .photo-grid,
+            #memories .photo-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .photo-item {
+                padding: 12px;
+            }
+            
+            .photo-item img {
+                max-width: 88%;
+                max-height: 88%;
+            }
+        }
+        
         /* 照片墙内容样式 */
         .photo-tab-content {
             display: none;
@@ -562,22 +626,36 @@
         <p>传承家族意识 · 卅六世先军使命</p>
     </header>
 
-    <div class="history-section">
-        <div class="history-content">
-             吾王氏远祖，始于东周灵王太子晋。其子宗敬公，始以王为氏，开族立宗。自太子晋至唐末大献公，历五十世，定居苦竹港，奠定新安琅琊王氏基业。七房思经公长子敬海公，迁龙潭；五世祖千十三公，徙居十六都浙桥，开基；十一世祖代五公，迁居桦林畈；十五世祖庚一公，再迁酬山。逮至十九世、始迁祖恒公，离酬山，择道桥定居，遂致瓜瓞绵延。自献公以下迄今，计已累卅九世。
+    <!-- 视频版块 -->
+    <div class="video-section">
+        <div class="video-title">家族历史视频</div>
+        <div class="video-container">
+            <video id="familyVideo" autoplay muted loop>
+                <!-- 这里使用一个示例视频URL，实际使用时请替换为您的视频URL -->
+                <source src="https://w-xianjun.github.io/daohang/all.mp4" type="video/mp4">
+                您的浏览器不支持HTML5视频。
+            </video>
+        </div>
+        <div class="video-controls">
+            <button id="playPauseBtn" class="video-control-btn">暂停</button>
+            <button id="muteUnmuteBtn" class="video-control-btn">取消静音</button>
+            <button id="replayBtn" class="video-control-btn">重新播放</button>
+        </div>
+        <div class="video-description">
+            本视频展示了新安琅琊王氏道桥恒公支的悠久历史与传承。
         </div>
         
         <!-- 修改后的宗派字序部分 -->
         <div class="generation-section">
-            <h3 class="generation-title">新安琅琊王氏宗派字序</h3>
+            <h3 class="generation-title">新安琅琊琊王氏宗派字序</h3>
             <div class="generation-content">
                 <p>系清嘉庆十四年，新安琅琊王氏在洪都编修大成宗谱时，以大献公生平赞词为主确定的。共十句五十字：</p>
                 <div class="generation-poem">
-                    <div class="generation-line">崇必命为孝        长怀及第先</div>
-                    <div class="generation-line">龙飞当盛日        凤纪际熙年</div>
-                    <div class="generation-line">士乐鸿才达        臣欢圣化绵</div>
-                    <div class="generation-line">万方培植后        庶福统临前</div>
-                    <div class="generation-line">钟毓清宁美        槐堂集象贤</div>
+                    <div class="generation-line">崇必命为孝      长怀及第先</div>
+                    <div class="generation-line">龙飞当盛日      凤纪际熙年</div>
+                    <div class="generation-line">士乐鸿才达      臣欢圣化绵</div>
+                    <div class="generation-line">万方培植后      庶福统临前</div>
+                    <div class="generation-line">钟毓清宁美      槐堂集象贤</div>
                 </div>
             </div>
         </div>
@@ -590,33 +668,33 @@
                 <div class="no-verify-badge">免验证</div>
                 <div class="branch-icon">🏛</div>
                 <a href="javascript:void(0);">长房查询</a>
-                <div class="branch-description">十九世至卅六世</div>
+                <div class="branch-description">十九世至卅卅六世</div>
             </div>
             <div class="branch-card" data-branch="后房" data-url="https://w-xianjun.github.io/houfang19-38/" data-verify="true">
                 <div class="branch-icon">🏯</div>
                 <a href="javascript:void(0);">后房查询</a>
-                <div class="branch-description">十九世至卅八世</div>
+                <div class="branch-description">十九世至卅卅八世</div>
             </div>
             <div class="branch-card" data-branch="前房" data-url="https://w-xianjun.github.io/qianfang19-39/" data-verify="true">
                 <div class="branch-icon">🕌</div>
                 <a href="javascript:void(0);">前房查询</a>
-                <div class="branch-description">十九世至卅九世</div>
+                <div class="branch-description">十九世至卅卅九世</div>
             </div>
             <div class="branch-card" data-branch="下房" data-url="https://w-xianjun.github.io/xiafang19-36/" data-verify="true">
                 <div class="branch-icon">🏡</div>
                 <a href="javascript:void(0);">下房查询</a>
-                <div class="branch-description">十九世至卅六世</div>
+                <div class="branch-description">十九世至卅卅六世</div>
             </div>
             <div class="branch-card" data-branch="上房" data-url="https://w-xianjun.github.io/shangfang19-37/" data-verify="true">
                 <div class="branch-icon">🏠</div>
                 <a href="javascript:void(0);">上房查询</a>
-                <div class="branch-description">十九世至卅七世</div>
+                <div class="branch-description">十九世至卅卅七世</div>
             </div>
             <div class="branch-card" data-branch="绍育支" data-url="https://w-xianjun.github.io/shaoyu19-30/" data-verify="false">
                 <div class="no-verify-badge">免验证</div>
                 <div class="branch-icon">🌳</div>
                 <a href="javascript:void(0);">绍育支查询</a>
-                <div class="branch-description">十九世至卅世</div>
+                <div class="branch-description">十九世至卅卅世</div>
             </div>
         </div>
     </div>
@@ -877,10 +955,52 @@
     </div>
 
 <footer style="text-align: center; margin-top: 50px; padding: 30px 0; border-top: 1px solid var(--border-color);">
-    <p>© 家族记忆珍藏馆 | 策划制作：王先军15000899766</p>
+    <p>© 家族记忆珍藏馆 | 王先军15000899766</p>
 </footer>
 
     <script>
+        // 视频控制功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('familyVideo');
+            const playPauseBtn = document.getElementById('playPauseBtn');
+            const muteUnmuteBtn = document.getElementById('muteUnmuteBtn');
+            const replayBtn = document.getElementById('replayBtn');
+            
+            // 播放/暂停按钮功能
+            playPauseBtn.addEventListener('click', function() {
+                if (video.paused) {
+                    video.play();
+                    playPauseBtn.textContent = '暂停';
+                } else {
+                    video.pause();
+                    playPauseBtn.textContent = '播放';
+                }
+            });
+            
+            // 静音/取消静音按钮功能
+            muteUnmuteBtn.addEventListener('click', function() {
+                if (video.muted) {
+                    video.muted = false;
+                    muteUnmuteBtn.textContent = '静音';
+                } else {
+                    video.muted = true;
+                    muteUnmuteBtn.textContent = '取消静音';
+                }
+            });
+            
+            // 重新播放按钮功能
+            replayBtn.addEventListener('click', function() {
+                video.currentTime = 0;
+                video.play();
+                playPauseBtn.textContent = '暂停';
+            });
+            
+            // 视频结束时重置按钮状态
+            video.addEventListener('ended', function() {
+                playPauseBtn.textContent = '重新播放';
+            });
+        });
+
         // 各房支31世后人名列表
         const branchNames31st = {
             "长房": [""],
@@ -1146,4 +1266,3 @@
     </script>
 </body>
 </html>
-
